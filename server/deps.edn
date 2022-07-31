@@ -1,0 +1,23 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+        http-kit/http-kit {:mvn/version "2.6.0"}}
+ :aliases
+ {:run-m {:main-opts ["-m" "is.mad.clojure-dapp.server"]}
+  :run-x {:ns-default is.mad.clojure-dapp.server
+          :exec-fn main
+          :exec-args {:name "I'm first arg"}}
+  :test {:extra-paths ["test"]
+         :extra-deps {org.clojure/test.check {:mvn/version "1.1.0"}}
+         }
+  :runner
+  {:extra-deps {io.github.cognitect-labs/test-runner
+                {:git/url "https://github.com/cognitect-labs/test-runner"
+                 :git/tag "v0.5.1" :git/sha "dfb30dd"}}
+   :main-opts ["-m" "cognitect.test-runner"]
+   :exec-fn cognitect.test-runner.api/test}
+  :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
+            :exec-fn hf.depstar/uberjar
+            :exec-args {:aot true
+                        :jar "clojure-dapp.jar"
+                        :main-class "is.mad.clojure-dapp.server"
+                        :sync-pom true}}}}
